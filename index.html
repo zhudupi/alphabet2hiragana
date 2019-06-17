@@ -86,7 +86,7 @@
 					return hiragana[word.match(/[fv]/)][word.match(/[aiueo]/)]
 				})
 				//替换除a行的50音
-				.replace(/([kgszthpbnmyrw]{1})([aiueo]{1})/g,function(word){
+				.replace(/([kgsztdhpbnmyrw]{1})([aiueo]{1})/g,function(word){
 					return hiragana[word.match(/[kgszthpbnmyrw]/)][word.match(/[aiueo]/)]
 					}
 				)
