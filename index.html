@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+	</head>
+	<body>
+		<input type="text" id="input"/>
+		<div class="hiragana"></div>
+		<div class="katakana"></div>
+		<script type="text/javascript">
+			var hiragana={
+				a:{a:'あ',i:'い',u:'う',e:'え',o:'お'},
+				_a:{a:'ぁ',i:'ぃ',u:'ぅ',e:'ぇ',o:'ぉ'},
+				k:{a:'か',i:'き',u:'く',e:'け',o:'こ'},
+				g:{a:'が',i:'ぎ',u:'ぐ',e:'げ',o:'ご'},
+				s:{a:'さ',i:'し',u:'す',e:'せ',o:'そ'},
+				z:{a:'ざ',i:'じ',u:'ず',e:'ぜ',o:'ぞ'},
+				t:{a:'た',i:'ち',u:'つ',e:'て',o:'と'},
+				d:{a:'だ',i:'ぢ',u:'づ',e:'で',o:'ど'},
+				n:{a:'な',i:'に',u:'ぬ',e:'ね',o:'の'},
+				h:{a:'は',i:'ひ',u:'ふ',e:'へ',o:'ほ'},
+				b:{a:'ば',i:'び',u:'ぶ',e:'べ',o:'ぼ'},
+				p:{a:'ぱ',i:'ぴ',u:'ぷ',e:'ぺ',o:'ぽ'},
+				m:{a:'ま',i:'み',u:'む',e:'め',o:'も'},
+				y:{a:'や',i:'yi',u:'ゆ',e:'ye',o:'よ'},
+				r:{a:'ら',i:'り',u:'る',e:'れ',o:'ろ'},
+				w:{a:'わ',i:'うぃ',u:'う',e:'うぇ',o:'を'},
+				f:{a:'ふぁ',i:'ふぃ',u:'ふ',e:'ふぇ',o:'ふぉ'},
+				v:{a:'ゔぁ',i:'ゔぃ',u:'ゔ',e:'ゔぇ',o:'ゔぉ'},
+				_y:{a:'ゃ',i:'',u:'ゅ',e:'ぇ',o:'ょ'},
+				__y:{a:'ゃ',i:'ぃ',u:'ゅ',e:'ぇ',o:'ょ'},
+				nn:'ん',
+				shi:'し',
+				ji:'じ',
+				chi:'ち',
+				tsu:'つ',
+				_tsu:'っ'
+			}
+			$('#input').on('keyup',function(){
+//				$('#input').val(translate($(this).val()))
+				$('.hiragana').html(translate($(this).val()))
+				$('.katakana').html(hiragana2katakana($('.hiragana').html()))
+			})
+			function translate(str){
+				//替换拔音
+				str=str.replace(/nn|tsu/g,function(word){
+					return hiragana[word]
+				})
+				//替换促音
+				.replace(/([bcdfghjklmnpqrstvwxyz])(?=\1)/g,hiragana['_tsu'])
+				.replace(/[xl]{1}(tu|tsu)/g,hiragana['_tsu'])
+				
+				//替换sh、ch、j的拗音
+				.replace(/(sh|ch|jy*){1}[aiueo]{1}/g,function(word){
+					return hiragana[word.match(/sh|ch|j/)+'i'] + /y/.test(word) ? hiragana['__y'][word.match(/[aiueo]/)] : hiragana['_y'][word.match(/[aiueo]/)]
+				})
+				//替换其他拗音
+				.replace(/[kgnhbpmr]{1}y{1}[auo]{1}/g,function(word){
+					return hiragana[word.match(/[kgnhbpmr]/)]['i']+hiragana['__y'][word.match(/[aiueo]/)]
+				})
+				//替换小字元音
+				.replace(/[xl]{1}[aiueo]{1}/g,function(word){
+					return hiragana['_a'][word.match(/[aiueo]/)]
+				})
+				//替换其他的辅音字母
+				.replace(/[fv]{1}[aiueo]{1}/g,function(word){
+					return hiragana[word.match(/[fv]/)][word.match(/[aiueo]/)]
+				})
+				//替换除a行的50音
+				.replace(/([kgszthpbnmyrw]{1})([aiueo]{1})/g,function(word){
+					return hiragana[word.match(/[kgszthpbnmyrw]/)][word.match(/[aiueo]/)]
+					}
+				)
+				//替换a行
+				.replace(/([aiueo]{1})/g,function(word){
+					return hiragana['a'][word]
+					}
+				)
+				//还有一个ios的蜜汁规则
+				.replace(/x(?=\u3063$)/,hiragana['_tsu'])
+				
+				return str
+			}
+			
+			//平假名转片假名
+			function hiragana2katakana(Str) {
+		        var strTemp = ""
+		        var intAsc
+		        for (i = 0; i < Str.length; i++) {
+		            if ((Str.charCodeAt(i) >= 12353) && (Str.charCodeAt(i) <= 12438)) {
+		                intAsc = Number(Str.charCodeAt(i)) + 96;
+		                strTemp = strTemp + String.fromCharCode(intAsc);
+		            }
+		            else
+		            {
+		                strTemp = strTemp + Str.charAt(i);
+		            }
+		        }
+		        return strTemp
+		
+		    }
+			//片假名转平假名
+			function katakana2hiragana(Str) {
+		        var strTemp = ""
+		        var intAsc
+		        for (i = 0; i < Str.length; i++) {
+		            if ((Str.charCodeAt(i) >= 12449) && (Str.charCodeAt(i) <= 12534)) {
+		                intAsc = Number(Str.charCodeAt(i)) - 96;
+		                strTemp = strTemp + String.fromCharCode(intAsc);
+		            }
+		            else
+		            {
+		                strTemp = strTemp + Str.charAt(i);
+		            }
+		        }
+		        return strTemp
+		
+		   }
+		</script>
+	</body>
+</html>
