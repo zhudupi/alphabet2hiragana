@@ -60,7 +60,7 @@
 					document.getElementsByClassName('katakana')[0].innerHTML=hiragana2katakana(document.getElementsByClassName('hiragana')[0].innerHTML)
 				}
 			}
-			function translate(str){
+			function alphabet2hiragana(str){
 				//替换拔音
 				str=str.replace(/nn|tsu/g,function(word){
 					return hiragana[word]
