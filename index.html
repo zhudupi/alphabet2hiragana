@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
-		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<!--<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>-->
 	</head>
 	<body>
 		<input type="text" id="input"/>
@@ -38,11 +38,28 @@
 				tsu:'つ',
 				_tsu:'っ'
 			}
-			$('#input').on('keyup',function(){
+//			$('#input').on('keyup',function(){
 //				$('#input').val(translate($(this).val()))
-				$('.hiragana').html(translate($(this).val()))
-				$('.katakana').html(hiragana2katakana($('.hiragana').html()))
-			})
+//				$('.hiragana').html(translate($(this).val()))
+//				$('.katakana').html(hiragana2katakana($('.hiragana').html()))
+//			})
+			var inputBox=document.getElementById('input');
+			document.getElementById('clearBtn').onclick=function(){
+				inputBox.value="";
+				document.getElementsByClassName('hiragana')[0].innerHTML="";
+				document.getElementsByClassName('katakana')[0].innerHTML=""
+			}
+			if('oninput' in inputBox){
+				inputBox.addEventListener('input',function(){
+					document.getElementsByClassName('hiragana')[0].innerHTML=alphabet2hiragana(inputBox.value);
+					document.getElementsByClassName('katakana')[0].innerHTML=hiragana2katakana(document.getElementsByClassName('hiragana')[0].innerHTML)
+				})
+			}else{
+				inputBox.onpropertychange=function(){
+					document.getElementsByClassName('hiragana')[0].innerHTML=alphabet2hiragana(inputBox.value);
+					document.getElementsByClassName('katakana')[0].innerHTML=hiragana2katakana(document.getElementsByClassName('hiragana')[0].innerHTML)
+				}
+			}
 			function translate(str){
 				//替换拔音
 				str=str.replace(/nn|tsu/g,function(word){
