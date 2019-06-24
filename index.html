@@ -69,35 +69,35 @@
 				})
 				//替换促音
 				.replace(/([bcdfghjklmnpqrstvwxyz])(?=\1)/g,hiragana['_tsu'])
-				.replace(/[xl]{1}(tu|tsu)/g,hiragana['_tsu'])
+				.replace(/[xl](tu|tsu)/g,hiragana['_tsu'])
 				
 				//替换sh、ch、j的拗音
-				.replace(/(sh|ch|jy*){1}[aiueo]{1}/g,function(word){
-					return hiragana[word.match(/sh|ch|j/)+'i'] + /y/.test(word) ? hiragana['__y'][word.match(/[aiueo]/)] : hiragana['_y'][word.match(/[aiueo]/)]
+				.replace(/(sh|ch|jy*)[aiueo]/g,function(word){
+					return hiragana[word.match(/sh|ch|j/)+'i'] + (/y/.test(word) ? hiragana['__y'][word.match(/[aiueo]/)] : hiragana['_y'][word.match(/[aiueo]/)])
 				})
 				//替换q的拗音,写到下面一起了
-//				.replace(/(qy){1}[aiueo]/,function(word){
+//				.replace(/(qy)[aiueo]/,function(word){
 //					return hiragana['k']['u']+hiragana['__y'][word.match(/[aiueo]/)]
 //				})
 				//替换其他拗音
-				.replace(/[kgnhbpmrczq]{1}y{1}[auo]{1}/g,function(word){
+				.replace(/[kgnhbpmrczq]y[aiueo]/g,function(word){
 					return (/q/.test(word)?hiragana['k']['u']:hiragana[word.match(/[kgnhbpmrczq]/)]['i'])+hiragana['__y'][word.match(/[aiueo]/)]
 				})
 				//替换小字元音
-				.replace(/[xl]{1}[aiueo]{1}/g,function(word){
+				.replace(/[xl][aiueo]/g,function(word){
 					return hiragana['_a'][word.match(/[aiueo]/)]
 				})
-				//替换其他的辅音字母
-				.replace(/[fv]{1}[aiueo]{1}/g,function(word){
-					return hiragana[word.match(/[fv]/)][word.match(/[aiueo]/)]
-				})
+				//替换其他的辅音字母,写到下面一起了
+//				.replace(/[fv][aiueo]/g,function(word){
+//					return hiragana[word.match(/[fv]/)][word.match(/[aiueo]/)]
+//				})
 				//替换除a行的50音
-				.replace(/([kgsztdhpbnmyrwq]{1})([aiueo]{1})/g,function(word){
-					return hiragana[word.match(/[kgsztdhpbnmyrwq]/)][word.match(/[aiueo]/)]
+				.replace(/([kgsztdhpbnmyrwqfv])([aiueo])/g,function(word){
+					return hiragana[word.match(/[kgsztdhpbnmyrwqfv]/)][word.match(/[aiueo]/)]
 					}
 				)
 				//替换a行
-				.replace(/([aiueo]{1})/g,function(word){
+				.replace(/([aiueo])/g,function(word){
 					return hiragana['a'][word]
 					}
 				)
