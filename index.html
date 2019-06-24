@@ -29,12 +29,14 @@
 				w:{a:'わ',i:'うぃ',u:'う',e:'うぇ',o:'を'},
 				f:{a:'ふぁ',i:'ふぃ',u:'ふ',e:'ふぇ',o:'ふぉ'},
 				v:{a:'ゔぁ',i:'ゔぃ',u:'ゔ',e:'ゔぇ',o:'ゔぉ'},
+				q:{a:'くぁ',i:'くぃ',u:'く',e:'くぇ',o:'くぉ'},
 				_y:{a:'ゃ',i:'',u:'ゅ',e:'ぇ',o:'ょ'},
 				__y:{a:'ゃ',i:'ぃ',u:'ゅ',e:'ぇ',o:'ょ'},
 				nn:'ん',
 				shi:'し',
 				ji:'じ',
 				chi:'ち',
+				c:'ち',
 				tsu:'つ',
 				_tsu:'っ'
 			}
@@ -73,9 +75,13 @@
 				.replace(/(sh|ch|jy*){1}[aiueo]{1}/g,function(word){
 					return hiragana[word.match(/sh|ch|j/)+'i'] + /y/.test(word) ? hiragana['__y'][word.match(/[aiueo]/)] : hiragana['_y'][word.match(/[aiueo]/)]
 				})
+				//替换q的拗音,写到下面一起了
+//				.replace(/(qy){1}[aiueo]/,function(word){
+//					return hiragana['k']['u']+hiragana['__y'][word.match(/[aiueo]/)]
+//				})
 				//替换其他拗音
-				.replace(/[kgnhbpmr]{1}y{1}[auo]{1}/g,function(word){
-					return hiragana[word.match(/[kgnhbpmr]/)]['i']+hiragana['__y'][word.match(/[aiueo]/)]
+				.replace(/[kgnhbpmrczq]{1}y{1}[auo]{1}/g,function(word){
+					return (/q/.test(word)?hiragana['k']['u']:hiragana[word.match(/[kgnhbpmr]/)]['i'])+hiragana['__y'][word.match(/[aiueo]/)]
 				})
 				//替换小字元音
 				.replace(/[xl]{1}[aiueo]{1}/g,function(word){
@@ -86,7 +92,7 @@
 					return hiragana[word.match(/[fv]/)][word.match(/[aiueo]/)]
 				})
 				//替换除a行的50音
-				.replace(/([kgsztdhpbnmyrw]{1})([aiueo]{1})/g,function(word){
+				.replace(/([kgsztdhpbnmyrwq]{1})([aiueo]{1})/g,function(word){
 					return hiragana[word.match(/[kgsztdhpbnmyrw]/)][word.match(/[aiueo]/)]
 					}
 				)
