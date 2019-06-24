@@ -81,7 +81,7 @@
 //				})
 				//替换其他拗音
 				.replace(/[kgnhbpmrczq]{1}y{1}[auo]{1}/g,function(word){
-					return (/q/.test(word)?hiragana['k']['u']:hiragana[word.match(/[kgnhbpmr]/)]['i'])+hiragana['__y'][word.match(/[aiueo]/)]
+					return (/q/.test(word)?hiragana['k']['u']:hiragana[word.match(/[kgnhbpmrczq]/)]['i'])+hiragana['__y'][word.match(/[aiueo]/)]
 				})
 				//替换小字元音
 				.replace(/[xl]{1}[aiueo]{1}/g,function(word){
@@ -93,7 +93,7 @@
 				})
 				//替换除a行的50音
 				.replace(/([kgsztdhpbnmyrwq]{1})([aiueo]{1})/g,function(word){
-					return hiragana[word.match(/[kgsztdhpbnmyrw]/)][word.match(/[aiueo]/)]
+					return hiragana[word.match(/[kgsztdhpbnmyrwq]/)][word.match(/[aiueo]/)]
 					}
 				)
 				//替换a行
